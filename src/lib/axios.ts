@@ -1,6 +1,14 @@
 import axios from "axios";
 
-import { AuthFormResult, SignInFormPayload, SignUpFormPayload } from "@/types";
+import { Task } from "@/components/Task/AddTaskDialog";
+
+import {
+  AuthFormResult,
+  CreateTaskFormResult,
+  ITask,
+  SignInFormPayload,
+  SignUpFormPayload,
+} from "@/types";
 
 import { env } from "../../env";
 
@@ -12,4 +20,16 @@ export const regiterUser = async (payload: SignUpFormPayload) => {
 
 export const signInUser = async (payload: SignInFormPayload) => {
   return await api.post<AuthFormResult>("/auth/login", { ...payload });
+};
+
+export const createTask = async (payload: Task) => {
+  return await api.post<CreateTaskFormResult>("/task/create", { ...payload });
+};
+
+export const getTasks = async () => {
+  return await api.get<ITask[]>("/task");
+};
+
+export const updateTask = async (taskId: string, payload: Partial<ITask>) => {
+  return await api.patch<ITask>(`/task/update/${taskId}`, { ...payload });
 };
