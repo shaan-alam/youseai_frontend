@@ -26,11 +26,7 @@ const Topbar = () => {
         </Button>
       </div>
       {addTaskDialog && (
-        <AddTaskDialog
-          isOpen={addTaskDialog}
-          onClose={setAddTaskDialog}
-          onAdd={() => {}}
-        />
+        <AddTaskDialog isOpen={addTaskDialog} onClose={setAddTaskDialog} />
       )}
     </div>
   );
