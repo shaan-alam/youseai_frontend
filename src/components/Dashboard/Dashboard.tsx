@@ -2,7 +2,7 @@
 
 import { useGetTasksQuery } from "@/hooks/tasks";
 
-import TaskManagement from "./KanbanBoard";
+import TaskManagement from "./TaskManagement";
 
 const Dashboard = () => {
   const { data } = useGetTasksQuery();

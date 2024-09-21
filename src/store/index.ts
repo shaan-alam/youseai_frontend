@@ -1,3 +1,3 @@
 import { atom } from "jotai";
 
-export const viewAtom = atom<"kanban" | "list">("kanban");
+export const viewAtom = atom<"kanban" | "list">("list");
