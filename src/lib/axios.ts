@@ -12,7 +12,10 @@ import {
 
 import { env } from "../../env";
 
-const api = axios.create({ baseURL: env.NEXT_PUBLIC_SERVER_BASE_URL });
+const api = axios.create({
+  baseURL: env.NEXT_PUBLIC_SERVER_BASE_URL,
+  withCredentials: true,
+});
 
 export const regiterUser = async (payload: SignUpFormPayload) => {
   return await api.post<AuthFormResult>("/auth/register", { ...payload });

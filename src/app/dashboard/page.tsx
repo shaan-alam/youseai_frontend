@@ -6,7 +6,7 @@ const Page = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto">
+        <div className="w-[60%] mx-auto">
         <Topbar />
         <Dashboard />
       </div>

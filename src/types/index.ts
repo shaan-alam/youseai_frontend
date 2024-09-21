@@ -41,3 +41,8 @@ export type CreateTaskPayload = Omit<
 >;
 
 export type ITask = CreateTaskFormResult;
+
+export type User = {
+  name: string;
+  email: string;
+}
