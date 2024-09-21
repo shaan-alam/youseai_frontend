@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { MoreVertical } from "lucide-react";
 
 import DeleteTaskDialog from "@/components/Task/DeleteTaskDialog";
+import TaskDialog from "@/components/Task/TaskDialog";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -85,7 +86,7 @@ export const columns: ColumnDef<ITask>[] = [
             <DropdownMenuContent>
               <DropdownMenuLabel>Task Options</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => setEditTaskDialog(false)}>
+              <DropdownMenuItem onClick={() => setEditTaskDialog(true)}>
                 Edit Task
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -96,6 +97,14 @@ export const columns: ColumnDef<ITask>[] = [
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          {editTaskDialog && (
+            <TaskDialog
+              isOpen={editTaskDialog}
+              onClose={() => setEditTaskDialog(false)}
+              formMode="Edit"
+              task={task}
+            />
+          )}
           {deleteTaskDialog && (
             <DeleteTaskDialog
               open={deleteTaskDialog}

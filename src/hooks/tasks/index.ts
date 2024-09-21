@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { Task } from "@/components/Task/AddTaskDialog";
+import { Task } from "@/components/Task/TaskDialog";
 
 import { createTask, deleteTask, getTasks, updateTask } from "@/lib/axios";
 import { showAxiosError } from "@/lib/utils";
@@ -52,7 +52,7 @@ type UpdateTaskMutationPayload = {
   newIndex: number;
 };
 
-export const useUpdateTaskMutation = (
+export const useUpdateStatusMutation = (
   options?: UseMutationOptions<
     ITask | undefined,
     Error,
@@ -92,6 +92,25 @@ export const useDeleteTaskMutation = (
       toast.success("Task deleted Successfully!");
       queryClient.invalidateQueries({ queryKey: ["get-tasks"] });
       closeModal();
+    },
+  });
+};
+
+export const useUpdateTaskMutation = (taskId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (payload: Partial<ITask>) => {
+      try {
+        const { data } = await updateTask(taskId, { ...payload });
+        return data;
+      } catch (err) {
+        showAxiosError(err);
+      }
+    },
+    onSuccess: () => {
+      toast.success("Updated Task successfully!");
+      queryClient.invalidateQueries({ queryKey: ["get-tasks"] });
     },
   });
 };

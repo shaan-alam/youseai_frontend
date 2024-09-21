@@ -5,7 +5,7 @@ import { useAtom } from "jotai";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { toast } from "sonner";
 
-import { useUpdateTaskMutation } from "@/hooks/tasks";
+import { useUpdateStatusMutation } from "@/hooks/tasks";
 
 import { viewAtom } from "@/store";
 import { ITask } from "@/types";
@@ -16,9 +16,9 @@ import ListView from "./ListView";
 const TaskManagement = ({ tasks }: { tasks: ITask[] }) => {
   const queryClient = useQueryClient();
 
-  const [view, setView] = useAtom(viewAtom);
+  const [view] = useAtom(viewAtom);
 
-  const { mutate: reorderTask } = useUpdateTaskMutation({
+  const { mutate: reorderTask } = useUpdateStatusMutation({
     onMutate: async ({ taskId, newStatus, newIndex }) => {
       await queryClient.cancelQueries({ queryKey: ["get-tasks"] });
       const previousTasks =

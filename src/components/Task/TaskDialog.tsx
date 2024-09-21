@@ -32,7 +32,9 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-import { useCreateTaskMutation } from "@/hooks/tasks";
+import { useCreateTaskMutation, useUpdateTaskMutation } from "@/hooks/tasks";
+
+import { ITask } from "@/types";
 
 import DatePicker from "../ui/date-picker";
 
@@ -55,27 +57,44 @@ export type Task = z.infer<typeof taskSchema>;
 type AddTaskDialogProps = {
   isOpen: boolean;
   onClose: Dispatch<SetStateAction<boolean>>;
-  onAdd: (newTask: Task) => void;
+  formMode?: "Create" | "Edit";
+  task?: ITask;
 };
 
-export default function AddTaskDialog({ isOpen, onClose }: AddTaskDialogProps) {
-  const { isPending, mutate: createTask } = useCreateTaskMutation();
+export default function TaskDialog({
+  isOpen,
+  onClose,
+  formMode = "Create",
+  task,
+}: AddTaskDialogProps) {
+  const { isPending: isSaving, mutate: createTask } = useCreateTaskMutation();
+  const { isPending: isUpdating, mutate: updateTask } = useUpdateTaskMutation(
+    task?._id as string
+  );
 
   const form = useForm<Task>({
     resolver: zodResolver(taskSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      status: "To Do",
-      priority: "Low",
-      dueDate: new Date(),
+      title: task?.title || "",
+      description: task?.description || "",
+      status: task?.status || "To Do",
+      priority: task?.priority || "Low",
+      dueDate: task?.dueDate ? new Date(task?.dueDate as string) : new Date(),
     },
   });
 
   const onSubmit = (data: Task) => {
-    createTask({
-      ...data,
-    });
+    if (formMode === "Create") {
+      createTask({
+        ...data,
+      });
+    } else {
+      updateTask({
+        ...data,
+        dueDate: data.dueDate.toString(),
+      });
+    }
+
     form.reset();
     onClose(false);
   };
@@ -84,7 +103,9 @@ export default function AddTaskDialog({ isOpen, onClose }: AddTaskDialogProps) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add New Task</DialogTitle>
+          <DialogTitle>
+            {formMode === "Create" ? "Add" : "Edit"} New Task
+          </DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -178,8 +199,8 @@ export default function AddTaskDialog({ isOpen, onClose }: AddTaskDialogProps) {
               )}
             />
             <DialogFooter>
-              <Button isLoading={isPending} type="submit">
-                Add Task
+              <Button isLoading={isSaving || isUpdating} type="submit">
+                Submit
               </Button>
             </DialogFooter>
           </form>

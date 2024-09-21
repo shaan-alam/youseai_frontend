@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { Task } from "@/components/Task/AddTaskDialog";
+import { Task } from "@/components/Task/TaskDialog";
 
 import {
   AuthFormResult,
@@ -36,4 +36,4 @@ export const updateTask = async (taskId: string, payload: Partial<ITask>) => {
 
 export const deleteTask = async (taskId: string) => {
   return await api.delete(`/task/delete/${taskId}`);
-}
+};

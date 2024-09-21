@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { ClipboardList } from "lucide-react";
 
-import AddTaskDialog from "../Task/AddTaskDialog";
+import AddTaskDialog from "../Task/TaskDialog";
 import { Button } from "../ui/button";
 import ViewSelector from "./VIewSelector";
 
