@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 import { Task } from "@/components/Task/AddTaskDialog";
 
-import { createTask, getTasks, updateTask } from "@/lib/axios";
+import { createTask, deleteTask, getTasks, updateTask } from "@/lib/axios";
 import { showAxiosError } from "@/lib/utils";
 
 import { ITask, TaskStatus } from "@/types";
@@ -70,5 +70,28 @@ export const useUpdateTaskMutation = (
       }
     },
     ...options,
+  });
+};
+
+export const useDeleteTaskMutation = (
+  taskId: string,
+  closeModal: () => void
+) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async () => {
+      try {
+        const { data } = await deleteTask(taskId);
+        return data;
+      } catch (err) {
+        showAxiosError(err);
+      }
+    },
+    onSuccess: () => {
+      toast.success("Task deleted Successfully!");
+      queryClient.invalidateQueries({ queryKey: ["get-tasks"] });
+      closeModal();
+    },
   });
 };

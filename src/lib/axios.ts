@@ -33,3 +33,7 @@ export const getTasks = async () => {
 export const updateTask = async (taskId: string, payload: Partial<ITask>) => {
   return await api.patch<ITask>(`/task/update/${taskId}`, { ...payload });
 };
+
+export const deleteTask = async (taskId: string) => {
+  return await api.delete(`/task/delete/${taskId}`);
+}
