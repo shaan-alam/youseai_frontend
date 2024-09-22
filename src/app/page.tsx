@@ -24,7 +24,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background">
-      <Card className="w-[350px]">
+      <Card className="w-[350px] border border-border dark:border-neutral-700">
         <CardHeader>
           <CardTitle>Welcome</CardTitle>
           <CardDescription>
@@ -47,7 +47,7 @@ export default function LoginPage() {
         </CardContent>
       </Card>
 
-      <Accordion type="single" collapsible className="w-full max-w-md">
+      <Accordion type="single" collapsible className="w-full max-w-md ml-12">
         <AccordionItem value="test-credentials">
           <AccordionTrigger>Test credentials</AccordionTrigger>
           <AccordionContent>

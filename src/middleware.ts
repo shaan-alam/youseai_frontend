@@ -1,6 +1,4 @@
-import { redirect } from "next/navigation";
-import { NextResponse } from "next/server";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { jwtVerify } from "jose";
 
@@ -16,7 +14,7 @@ async function verifyToken(token: string) {
     return payload;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err: unknown) {
-    return redirect("/");
+    return null;
   }
 }
 
