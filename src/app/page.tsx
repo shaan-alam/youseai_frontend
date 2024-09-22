@@ -12,6 +12,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 export default function LoginPage() {
   const [activeTab, setActiveTab] = useState("signin");
@@ -40,6 +46,22 @@ export default function LoginPage() {
           </Tabs>
         </CardContent>
       </Card>
+
+      <Accordion type="single" collapsible className="w-full max-w-md">
+        <AccordionItem value="test-credentials">
+          <AccordionTrigger>Test credentials</AccordionTrigger>
+          <AccordionContent>
+            <div className="space-y-2">
+              <p>
+                <strong>Email:</strong> test@test.com
+              </p>
+              <p>
+                <strong>Password:</strong> testtest
+              </p>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </div>
   );
 }
