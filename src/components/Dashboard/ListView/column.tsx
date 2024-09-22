@@ -80,10 +80,10 @@ export const columns: ColumnDef<ITask>[] = [
       return (
         <>
           <DropdownMenu>
-            <DropdownMenuTrigger className="rounded-full p-2 text-gray-400 hover:bg-gray-200">
+            <DropdownMenuTrigger className="dark:hover:bg-neutral-800 rounded-full p-2 text-neutral-400 hover:bg-neutral-200">
               <MoreVertical size={17} />
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className="border border-neutral-800">
               <DropdownMenuLabel>Task Options</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setEditTaskDialog(true)}>

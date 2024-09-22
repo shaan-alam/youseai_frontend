@@ -1,16 +1,13 @@
+import { useRouter } from "next/navigation";
+
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 
-import { regiterUser, signInUser } from "@/lib/axios";
+import { logout, regiterUser, signInUser, whoAmI } from "@/lib/axios";
 import { showAxiosError } from "@/lib/utils";
 
 import { userAtom } from "@/store";
-import {
-  AuthFormResult,
-  SignInFormPayload,
-  SignUpFormPayload,
-  User,
-} from "@/types";
+import { AuthFormResult, SignInFormPayload, SignUpFormPayload } from "@/types";
 
 export const useCreateUserMutation = (
   options?: UseMutationOptions<
@@ -20,7 +17,7 @@ export const useCreateUserMutation = (
     unknown
   >
 ) => {
-  const [_, setUser] = useAtom(userAtom);
+  const [, setUser] = useAtom(userAtom);
 
   return useMutation({
     mutationFn: async (payload: SignUpFormPayload) => {
@@ -45,7 +42,7 @@ export const useSignInUserMutation = (
     unknown
   >
 ) => {
-  const [_, setUser] = useAtom(userAtom);
+  const [, setUser] = useAtom(userAtom);
 
   return useMutation({
     mutationFn: async (payload: SignInFormPayload) => {
@@ -61,5 +58,53 @@ export const useSignInUserMutation = (
       }
     },
     ...options,
+  });
+};
+
+export const useWhoAmIMutation = () => {
+  const [, setUser] = useAtom(userAtom);
+  const router = useRouter();
+  router.push("/");
+
+  return useMutation({
+    mutationFn: async () => {
+      try {
+        const { data } = await whoAmI();
+
+        return data;
+      } catch (err) {
+        showAxiosError(err);
+      }
+    },
+    onSuccess: (result) => {
+      if (result) {
+        const { user } = result;
+        setUser({ name: user.name, email: user.email });
+        router.push("/dashboard");
+      }
+    },
+    onError: (err) => {
+      console.log("err", err);
+      setUser(null);
+      router.push("/");
+    },
+  });
+};
+
+export const useLogoutMutation = () => {
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: async () => {
+      try {
+        const { data } = await logout();
+        return data;
+      } catch (err) {
+        showAxiosError(err);
+      }
+    },
+    onSuccess: () => {
+      router.push("/");
+    },
   });
 };

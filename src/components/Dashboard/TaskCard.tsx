@@ -18,6 +18,7 @@ import {
 import { CreateTaskFormResult } from "@/types";
 
 import DeleteTaskDialog from "../Task/DeleteTaskDialog";
+import TaskDialog from "../Task/TaskDialog";
 
 export default function TaskCard({ task }: { task: CreateTaskFormResult }) {
   const [editTaskDialog, setEditTaskDialog] = useState(false);
@@ -30,17 +31,17 @@ export default function TaskCard({ task }: { task: CreateTaskFormResult }) {
   };
 
   return (
-    <div className="mb-2 rounded-sm bg-neutral-100 p-4">
+    <div className="mb-2 rounded-sm bg-neutral-100 dark:bg-zinc-800 p-4">
       <div className="flex items-center justify-between">
         <CardTitle className="text-sm">{task.title}</CardTitle>
         <DropdownMenu>
-          <DropdownMenuTrigger className="rounded-full p-2 text-gray-400 hover:bg-gray-200">
+          <DropdownMenuTrigger className="rounded-full p-2 text-gray-400 hover:bg-gray-200 dark:hover:bg-neutral-700">
             <MoreVertical size={17} />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>Task Options</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => setEditTaskDialog(false)}>
+            <DropdownMenuItem onClick={() => setEditTaskDialog(true)}>
               Edit Task
             </DropdownMenuItem>
             <DropdownMenuItem
@@ -58,6 +59,14 @@ export default function TaskCard({ task }: { task: CreateTaskFormResult }) {
           {task.priority}
         </Badge>
       </div>
+      {editTaskDialog && (
+        <TaskDialog
+          isOpen={editTaskDialog}
+          onClose={() => setEditTaskDialog(false)}
+          formMode="Create"
+          task={task}
+        />
+      )}
       {deleteTaskDialog && (
         <DeleteTaskDialog
           taskId={task._id}

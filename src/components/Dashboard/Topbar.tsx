@@ -12,7 +12,7 @@ const Topbar = () => {
   const [addTaskDialog, setAddTaskDialog] = useState(false);
 
   return (
-    <div className="flex w-full items-center justify-between border-b p-4">
+    <div className="flex w-full items-center justify-between border-b dark:border-neutral-800 p-4">
       <div>
         <h1 className="flex items-center text-xl font-semibold text-primary">
           <ClipboardList className="h-4 w-4" />

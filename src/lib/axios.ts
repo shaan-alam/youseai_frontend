@@ -13,7 +13,7 @@ import {
 import { env } from "../../env";
 
 const api = axios.create({
-  baseURL: env.NEXT_PUBLIC_SERVER_BASE_URL,
+  baseURL: env.NEXT_PUBLIC_SERVER_BASE_URL as string,
   withCredentials: true,
 });
 
@@ -39,4 +39,12 @@ export const updateTask = async (taskId: string, payload: Partial<ITask>) => {
 
 export const deleteTask = async (taskId: string) => {
   return await api.delete(`/task/delete/${taskId}`);
+};
+
+export const whoAmI = async () => {
+  return await api.post<Omit<AuthFormResult, "token">>("/auth/whoami");
+};
+
+export const logout = async () => {
+  return await api.post("/auth/logout");
 };

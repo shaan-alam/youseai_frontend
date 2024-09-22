@@ -101,7 +101,7 @@ export default function TaskDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="border border-neutral-800">
         <DialogHeader>
           <DialogTitle>
             {formMode === "Create" ? "Add" : "Edit"} New Task

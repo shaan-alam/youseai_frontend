@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 
@@ -5,21 +6,22 @@ import { jwtVerify } from "jose";
 
 import { env } from "../env";
 
-const SECRET_KEY = new TextEncoder().encode(env.NEXT_PUBLIC_JWT_SECRET);
+const SECRET_KEY = new TextEncoder().encode(
+  env.NEXT_PUBLIC_JWT_SECRET as string
+);
 
 async function verifyToken(token: string) {
   try {
     const { payload } = await jwtVerify(token, SECRET_KEY);
     return payload;
-  } catch (error) {
-    return null;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (err: unknown) {
+    return redirect("/");
   }
 }
 
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get("token");
-
-  console.log(token?.value);
 
   if (req.nextUrl.pathname === "/") {
     if (token) {
